@@ -15,10 +15,12 @@ for i in range(len(l)):
 
 hashTree = [hashList]
 
+placeHolder = web3.Web3.keccak( encode_abi_packed(['uint256','address','uint256'], (2**256-1, "0x0000000000000000000000000000000000000000", 0)) )
+
 while len(hashTree[-1]) != 1:
   thisRound = hashTree[-1]
   nextRound = []
-  if len(thisRound) % 2 == 1: thisRound.append( thisRound[-1] )
+  if len(thisRound) % 2 == 1: thisRound.append( placeHolder )
   for i in range(0, len(thisRound), 2):
     if thisRound[i] > thisRound[i+1]: nextRound.append( web3.Web3.keccak(encode_abi_packed(["bytes32","bytes32"], (thisRound[i+1], thisRound[i]))) )
     else:                             nextRound.append( web3.Web3.keccak(encode_abi_packed(["bytes32","bytes32"], (thisRound[i], thisRound[i+1]))) )
